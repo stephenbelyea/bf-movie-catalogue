@@ -1,0 +1,28 @@
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+.button, .input {
+  transition: background 150ms,
+              border 150ms,
+              color 150ms;
+}
+.button.is-link:hover,
+.button.is-link:focus {
+  background-color: #1850aa;
+}
+.field label {
+  font-weight: bold;
+  margin-bottom: .25rem;
+  display: block;
+}
+fieldset {
+  border: none;
+}

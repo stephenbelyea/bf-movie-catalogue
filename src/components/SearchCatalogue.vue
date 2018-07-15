@@ -26,6 +26,10 @@
         type: Boolean,
         default: false,
       },
+      searchQuery: {
+        type: String,
+        default: '',
+      },
     },
     data() {
       return {
@@ -40,6 +44,11 @@
     watch: {
       search: function(value) {
         this.$emit('search', value);
+      },
+      searchQuery: function(value) {
+        if (!searchQuery && this.search) {
+          this.search = '';
+        }
       },
     },
   }
