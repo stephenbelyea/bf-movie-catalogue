@@ -5,8 +5,8 @@
     </header>
     <div class="container catalogue-actions">
       <search-catalogue
-        :is-loading="isLoading"
         :search-query="searchQuery"
+        :disabled="isLoading || fullCatalogue.length === 0"
         @search="updateSearchQuery"
       ></search-catalogue>
       <add-movie
@@ -24,7 +24,10 @@
         aria-live="polite"
         class="has-text-centered"
       >
-        <template v-if="searchStatus">
+        <template v-if="isLoading">
+          Loading your catalogue...
+        </template>
+        <template v-else-if="searchStatus">
           {{ searchStatus }}
         </template>
         <template v-else>
@@ -39,8 +42,7 @@
   import AddMovie from './components/AddMovie';
   import CatalogueList from './components/CatalogueList';
   import searchUtils from './mixins/search.utils';
-
-  import catalogueData from './catalogue-data';
+  import api from './services/api';
 
   export default {
     data() {
@@ -62,14 +64,16 @@
     ],
     computed: {
       showingFullCatalogueMsg() {
+        if (this.filteredCatalogue.length === 0) {
+          return 'Your catalogue is empty. Bummer. ';
+        }
+        if (this.filteredCatalogue.length === 1) {
+          return 'Showing your only movie. ';
+        }
         return `Showing all ${this.filteredCatalogue.length} movies. `;
       },
     },
     methods: {
-      commaStringToArray(string) {
-        if (!string.includes(',')) return string;
-        return string.replace(', ', ',').split(',');
-      },
       updateSearchQuery(search) {
         this.searchQuery = search;
         if (this.searchQuery) {
@@ -80,23 +84,38 @@
           this.searchStatus = '';
         }
       },
+      onRequestError(error) {
+        console.log(error);
+        this.isLoading = false;
+      },
+      fetchMovies() {
+        this.isLoading = true;
+        setTimeout(() => {
+          api.getMovies()
+            .then((response) => {
+              this.fullCatalogue = this.sortCatalogueByProp(response.data);
+              this.isLoading = false;
+            })
+            .catch(this.onRequestError);
+        }, 1500);
+      },
       addMovie(movie) {
-        const catalogue = [
-          ...this.fullCatalogue,
-          {
-            ...movie,
-            cast: this.commaStringToArray(movie.cast),
-            genre: this.commaStringToArray(movie.genre),
-          }
-        ];
-        this.fullCatalogue = this.sortCatalogueByProp(catalogue, 'year');
-        this.filteredCatalogue = this.fullCatalogue;
-        this.searchQuery = '';
+        this.isLoading = true;
+        api.addMovie(movie)
+          .then(() => {
+            this.fetchMovies();
+          })
+          .catch(this.onRequestError);
       },
     },
     created() {
-      this.fullCatalogue = this.sortCatalogueByProp(catalogueData, 'year');
-      this.filteredCatalogue = this.fullCatalogue;
+      this.fetchMovies();
+    },
+    watch: {
+      fullCatalogue: function(catalogue) {
+        this.filteredCatalogue = catalogue;
+        this.searchQuery = '';
+      },
     },
   }
 </script>

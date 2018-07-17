@@ -10,6 +10,7 @@
         class="input"
         v-model="search"
         :placeholder="description"
+        :disabled="disabled"
         aria-describedby=""
       >
       <span 
@@ -22,7 +23,7 @@
 <script>
   export default {
     props: {
-      isLoading: {
+      disabled: {
         type: Boolean,
         default: false,
       },
@@ -46,7 +47,7 @@
         this.$emit('search', value);
       },
       searchQuery: function(value) {
-        if (!searchQuery && this.search) {
+        if (!value && this.search) {
           this.search = '';
         }
       },

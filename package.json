@@ -10,6 +10,12 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "cors": "^2.8.4",
+    "epilogue": "^0.7.1",
+    "express": "^4.16.3",
+    "sequelize": "^4.38.0",
+    "sqlite": "^2.9.2",
     "vue": "^2.5.11"
   },
   "browserslist": [

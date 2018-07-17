@@ -14,8 +14,8 @@
         :key="movie.id"
       >
         <td>{{ movie.title }}</td>
-        <td>{{ movie.cast.join(', ') }}</td>
-        <td>{{ movie.genre.join(', ') }}</td>
+        <td>{{ movie.cast }}</td>
+        <td>{{ movie.genre }}</td>
         <td>{{ movie.year }}</td>
       </tr>
     </tbody>
