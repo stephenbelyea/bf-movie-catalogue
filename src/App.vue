@@ -19,7 +19,7 @@
         :is-loading="isLoading"
         :catalogue="filteredCatalogue"
       ></catalogue-list>
-      <div 
+      <div
         role="status"
         aria-live="polite"
         class="has-text-centered"
@@ -93,7 +93,7 @@
         setTimeout(() => {
           api.getMovies()
             .then((response) => {
-              this.fullCatalogue = this.sortCatalogueByProp(response.data);
+              this.fullCatalogue = this.sortCatalogueByProp(response.data, 'year');
               this.isLoading = false;
             })
             .catch(this.onRequestError);
@@ -120,9 +120,6 @@
   }
 </script>
 <style>
-  .container {
-    padding: 1rem;
-  }
   .catalogue-actions {
     display: flex;
     justify-content: space-between;

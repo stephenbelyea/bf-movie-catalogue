@@ -4,8 +4,8 @@
       <label for="search">
         Search Catalogue
       </label>
-      <input 
-        type="text" 
+      <input
+        type="text"
         id="search"
         class="input"
         v-model="search"
@@ -13,7 +13,7 @@
         :disabled="disabled"
         aria-describedby=""
       >
-      <span 
+      <span
         id="search-description"
         class="visually-hidden"
       >{{ description }}</span>
@@ -54,3 +54,14 @@
     },
   }
 </script>
+<style>
+  .search-catalogue {
+    flex: 1 1 20rem;
+  }
+  .input::-webkit-input-placeholder {
+    color: #777;
+  }
+  .input::-moz-placeholder {
+    color: #222;
+  }
+</style>
