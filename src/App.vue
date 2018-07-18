@@ -18,6 +18,7 @@
       <catalogue-list
         :is-loading="isLoading"
         :catalogue="filteredCatalogue"
+        @order="updateCatalogueOrder"
       ></catalogue-list>
       <div
         role="status"
@@ -32,6 +33,9 @@
         </template>
         <template v-else>
           {{ showingFullCatalogueMsg }}
+        </template>
+        <template v-if="orderStatus">
+          {{ orderStatus }}
         </template>
       </div>
     </main>
@@ -52,6 +56,7 @@
         filteredCatalogue: [],
         searchQuery: '',
         searchStatus: '',
+        orderStatus: '',
       };
     },
     components: {
@@ -84,8 +89,16 @@
           this.searchStatus = '';
         }
       },
+      updateCatalogueOrder(order) {
+        this.filteredCatalogue = this.sortCatalogueByProp(
+          this.filteredCatalogue,
+          order.col,
+          order.dir,
+        );
+        this.orderStatus = `Sorted by ${order.col} (${order.dir === 'asc' ? 'ascending' : 'descending'}). `;
+      },
       onRequestError(error) {
-        console.log(error);
+        console.log('Error: ', error);
         this.isLoading = false;
       },
       fetchMovies() {
@@ -93,7 +106,7 @@
         setTimeout(() => {
           api.getMovies()
             .then((response) => {
-              this.fullCatalogue = this.sortCatalogueByProp(response.data, 'year');
+              this.fullCatalogue = response.data;
               this.isLoading = false;
             })
             .catch(this.onRequestError);
