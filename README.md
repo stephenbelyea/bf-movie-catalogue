@@ -1,16 +1,16 @@
-# bf-movie-catalogue
+# Movie Catalogue
 
-> Movie Catalogue
+> Simple movie catalogue table.
 
 ## Build Setup
 
 ``` bash
-# install dependencies
+# Install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+# Serve with hot reload at localhost:8080
 npm run dev
 
-# run the node server at localhost:8081
+# (In a new terminal) Run the node server
 node ./src/server
 ```
