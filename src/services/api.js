@@ -13,4 +13,7 @@ export default {
   addMovie(movie) {
     return ax.post('/movies', movie);
   },
+  deleteMovie(movieId) {
+    return ax.delete(`/movies/${movieId}`);
+  },
 }

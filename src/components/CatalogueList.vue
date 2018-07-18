@@ -27,6 +27,7 @@
           <button
             class="button is-small set-order"
             :class="{ 'is-active': order.col === 'year' }"
+            :disabled="isLoading"
             @click.prevent="setOrderByColumn('year')"
           >
             <span class="visually-hidden">order by year</span>
@@ -40,6 +41,7 @@
             ></span>
           </button>
         </th>
+        <td></td>
       </tr>
     </thead>
     <transition name="tbody">
@@ -52,6 +54,16 @@
           <td>{{ movie.cast }}</td>
           <td>{{ movie.genre }}</td>
           <td>{{ movie.year }}</td>
+          <td>
+            <button 
+              class="button is-danger is-small is-outlined"
+              :disabled="isLoading"
+              @click.prevent="$emit('delete', movie.id)"
+            >
+              <strong>Delete</strong>
+              <span class="visually-hidden"> {{ movie.title }}</span>
+            </button>
+          </td>
         </tr>
       </tbody>
     </transition>
@@ -121,6 +133,9 @@
   .set-order.is-active .arrows.is-asc:after,
   .set-order.is-active .arrows.is-desc:before {
     opacity: 0;
+  }
+  th {
+    white-space: nowrap;
   }
 
 

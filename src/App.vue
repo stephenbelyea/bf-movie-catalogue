@@ -19,6 +19,7 @@
         :is-loading="isLoading"
         :catalogue="filteredCatalogue"
         @order="updateCatalogueOrder"
+        @delete="deleteMovie"
       ></catalogue-list>
       <div
         role="status"
@@ -120,6 +121,16 @@
           })
           .catch(this.onRequestError);
       },
+      deleteMovie(movieId) {
+        // Should probably confirm with the user first, eh?
+
+        this.isLoading = true;
+        api.deleteMovie(movieId)
+          .then(() => {
+            this.fetchMovies();
+          })
+          .catch(this.onRequestError);
+      }
     },
     created() {
       this.fetchMovies();
