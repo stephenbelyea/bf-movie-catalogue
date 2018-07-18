@@ -11,7 +11,7 @@
         v-model="search"
         :placeholder="description"
         :disabled="disabled"
-        aria-describedby=""
+        aria-describedby="search-description"
       >
       <span
         id="search-description"
